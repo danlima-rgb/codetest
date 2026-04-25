@@ -10,7 +10,7 @@ const SORT_OPTIONS = [
 
 const STATUS_FILTERS = ['todos', 'novo', 'contatado', 'proposta', 'fechado']
 
-export default function ClientList({ leads: initialLeads, searchParams, onReset }) {
+export default function ClientList({ leads: initialLeads, searchParams, isReal, onReset }) {
   const [leads, setLeads] = useState(initialLeads)
   const [sort, setSort] = useState('score')
   const [filterStatus, setFilterStatus] = useState('todos')
@@ -43,10 +43,21 @@ export default function ClientList({ leads: initialLeads, searchParams, onReset 
       {/* Summary header */}
       <div className="flex items-start justify-between gap-4 mb-6">
         <div>
-          <h2 className="text-text-primary font-semibold text-lg">
-            {leads.length} leads encontrados
-          </h2>
-          <p className="text-text-muted text-xs mt-0.5">
+          <div className="flex items-center gap-2 mb-1">
+            <h2 className="text-text-primary font-semibold text-lg">
+              {leads.length} leads encontrados
+            </h2>
+            {isReal ? (
+              <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-success/10 border border-success/30 text-success">
+                ✓ Dados reais
+              </span>
+            ) : (
+              <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-warning/10 border border-warning/30 text-warning">
+                Demo
+              </span>
+            )}
+          </div>
+          <p className="text-text-muted text-xs">
             {searchParams.niche} · {searchParams.cidade}
           </p>
         </div>

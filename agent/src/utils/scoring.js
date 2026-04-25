@@ -74,7 +74,7 @@ function generateGoogleMapsUrl(nome, cidade, googleMaps) {
   return `https://www.google.com/maps/search/?api=1&query=${query}`
 }
 
-function calcScore(flags) {
+export function calcScore(flags) {
   const {
     semSite,        // 0 or 1
     siteDesatualizado, // 0 or 1
@@ -113,7 +113,7 @@ function calcScore(flags) {
   return Math.min(100, Math.max(0, score))
 }
 
-function estimateTicket(score, nicheData) {
+export function estimateTicket(score, nicheData) {
   const [min, max] = nicheData.baseTicket
   const ratio = score / 100
   const low = Math.round((min + (max - min) * ratio * 0.6) / 500) * 500
@@ -121,14 +121,14 @@ function estimateTicket(score, nicheData) {
   return { low, high }
 }
 
-function scoreLabel(score) {
+export function scoreLabel(score) {
   if (score >= 80) return { label: 'Altíssimo', color: 'hot', emoji: '🔥' }
   if (score >= 65) return { label: 'Alto',      color: 'warm', emoji: '⚡' }
   if (score >= 50) return { label: 'Médio',     color: 'cold', emoji: '💧' }
   return             { label: 'Baixo',           color: 'cold', emoji: '❄️' }
 }
 
-function generateAbordagem(client) {
+export function generateAbordagem(client) {
   const nome = client.nome.split(' ')[0]
   if (client.semSite) {
     return `"Olá, ${nome}! Vi seu negócio no Google e notei que você ainda não tem um site. Tenho ajudado clientes na mesma situação a atrair 3x mais clientes online. Posso apresentar uma proposta rápida?"`
