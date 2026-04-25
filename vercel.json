@@ -1,0 +1,6 @@
+{
+  "buildCommand": "cd agent && npm install && npm run build",
+  "outputDirectory": "agent/dist",
+  "installCommand": "echo skip",
+  "framework": null
+}
