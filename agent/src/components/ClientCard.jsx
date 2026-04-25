@@ -99,14 +99,30 @@ export default function ClientCard({ client, onStatusChange, rank }) {
                 </span>
               )}
               {client.instagramAtivo && (
-                <span className="text-[11px] px-2 py-0.5 rounded-md bg-purple-500/10 border border-purple-500/25 text-purple-300">
-                  📱 Instagram ativo
-                </span>
+                <a
+                  href={client.instagramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[11px] px-2 py-0.5 rounded-md bg-purple-500/10 border border-purple-500/25 text-purple-300 hover:bg-purple-500/20 hover:border-purple-400/50 transition-colors inline-flex items-center gap-1"
+                >
+                  <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                  </svg>
+                  Instagram ↗
+                </a>
               )}
               {client.googleMaps && (
-                <span className="text-[11px] px-2 py-0.5 rounded-md bg-blue-500/10 border border-blue-500/25 text-blue-300">
-                  📍 Google Maps ({client.avaliacoes} av.)
-                </span>
+                <a
+                  href={client.googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[11px] px-2 py-0.5 rounded-md bg-blue-500/10 border border-blue-500/25 text-blue-300 hover:bg-blue-500/20 hover:border-blue-400/50 transition-colors inline-flex items-center gap-1"
+                >
+                  <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                  </svg>
+                  Maps ({client.avaliacoes} av.) ↗
+                </a>
               )}
             </div>
 
@@ -174,15 +190,57 @@ export default function ClientCard({ client, onStatusChange, rank }) {
             {/* Contact info */}
             <div>
               <p className="text-[11px] uppercase tracking-wider text-text-muted font-medium mb-2">Contato</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <div className="bg-elevated rounded-lg p-3">
-                  <p className="text-[10px] text-text-muted mb-0.5">Telefone</p>
-                  <p className="text-sm text-text-primary font-mono">{client.telefone}</p>
-                </div>
-                <div className="bg-elevated rounded-lg p-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
+                <a
+                  href={`https://wa.me/55${client.telefone.replace(/\D/g,'')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-elevated rounded-lg p-3 hover:border-green-500/30 border border-transparent transition-colors group"
+                >
+                  <p className="text-[10px] text-text-muted mb-0.5">Telefone / WhatsApp</p>
+                  <p className="text-sm text-text-primary font-mono group-hover:text-green-400 transition-colors">
+                    {client.telefone} ↗
+                  </p>
+                </a>
+                <a
+                  href={`mailto:${client.email}`}
+                  className="bg-elevated rounded-lg p-3 hover:border-accent/30 border border-transparent transition-colors group"
+                >
                   <p className="text-[10px] text-text-muted mb-0.5">E-mail</p>
-                  <p className="text-sm text-text-primary font-mono truncate">{client.email}</p>
-                </div>
+                  <p className="text-sm text-text-primary font-mono truncate group-hover:text-accent transition-colors">
+                    {client.email} ↗
+                  </p>
+                </a>
+              </div>
+
+              {/* Social / Maps quick links */}
+              <div className="flex gap-2">
+                {client.instagramUrl && (
+                  <a
+                    href={client.instagramUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center gap-2 bg-purple-500/10 border border-purple-500/30 rounded-lg py-2.5 text-purple-300 text-xs font-medium hover:bg-purple-500/20 transition-colors"
+                  >
+                    <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                    </svg>
+                    Abrir Instagram ↗
+                  </a>
+                )}
+                {client.googleMapsUrl && (
+                  <a
+                    href={client.googleMapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center gap-2 bg-blue-500/10 border border-blue-500/30 rounded-lg py-2.5 text-blue-300 text-xs font-medium hover:bg-blue-500/20 transition-colors"
+                  >
+                    <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                    </svg>
+                    Abrir no Maps ↗
+                  </a>
+                )}
               </div>
             </div>
 

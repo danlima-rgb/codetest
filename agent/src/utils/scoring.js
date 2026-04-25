@@ -42,14 +42,36 @@ function generatePhone(seed) {
 }
 
 function generateEmail(name, seed) {
-  const r = seededRand(seed + 2)
   const slug = name
     .toLowerCase()
     .replace(/[^a-z0-9\s]/g, '')
     .replace(/\s+/g, '')
     .slice(0, 18)
-  const domains = ['gmail.com', 'hotmail.com', 'outlook.com', slug.slice(0, 10) + '.com.br']
   return `contato@${slug.slice(0, 12)}.com.br`
+}
+
+function generateInstagramHandle(name) {
+  const slug = name
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')  // remove accents
+    .replace(/[^a-z0-9\s]/g, '')
+    .trim()
+    .replace(/\s+/g, '.')
+    .slice(0, 28)
+  return slug
+}
+
+function generateInstagramUrl(nome, instagramAtivo) {
+  if (!instagramAtivo) return null
+  const handle = generateInstagramHandle(nome)
+  return `https://www.instagram.com/${handle}/`
+}
+
+function generateGoogleMapsUrl(nome, cidade, googleMaps) {
+  if (!googleMaps) return null
+  const query = encodeURIComponent(`${nome} ${cidade}`)
+  return `https://www.google.com/maps/search/?api=1&query=${query}`
 }
 
 function calcScore(flags) {
@@ -169,12 +191,14 @@ export function generateLeads(niche, cidade, count = 15, searchSeed = Date.now()
       semSite,
       siteDesatualizado,
       instagramAtivo,
+      instagramUrl: generateInstagramUrl(nome, instagramAtivo),
       googleMaps,
+      googleMapsUrl: generateGoogleMapsUrl(nome, cidade, googleMaps),
       tempoMercado,
       avaliacoes,
       porte: porte.label,
       abordagem: '',
-      status: 'novo', // 'novo' | 'contatado' | 'proposta' | 'fechado'
+      status: 'novo',
     })
   }
 
@@ -189,7 +213,8 @@ export function generateLeads(niche, cidade, count = 15, searchSeed = Date.now()
 export function exportCSV(leads) {
   const headers = [
     'Nome', 'Cidade', 'Score', 'Qualificação', 'Sem Site', 'Site Desatualizado',
-    'Instagram Ativo', 'Google Maps', 'Porte', 'Anos no Mercado', 'Avaliações',
+    'Instagram', 'Link Instagram', 'Google Maps', 'Link Google Maps',
+    'Porte', 'Anos no Mercado', 'Avaliações',
     'Ticket Min (R$)', 'Ticket Max (R$)', 'Telefone', 'Email', 'Status',
   ]
   const rows = leads.map(l => [
@@ -197,7 +222,9 @@ export function exportCSV(leads) {
     l.semSite ? 'Sim' : 'Não',
     l.siteDesatualizado ? 'Sim' : 'Não',
     l.instagramAtivo ? 'Sim' : 'Não',
+    l.instagramUrl || '',
     l.googleMaps ? 'Sim' : 'Não',
+    l.googleMapsUrl || '',
     l.porte, l.tempoMercado, l.avaliacoes,
     l.ticket.low, l.ticket.high,
     l.telefone, l.email, l.status,
