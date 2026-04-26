@@ -1,23 +1,35 @@
 import { useState, useEffect, useRef } from 'react'
 
 const STEPS = [
-  { id: 1, text: 'Conectando ao Google Places...',          ms: 600  },
-  { id: 2, text: 'Buscando negócios na região...',          ms: 800  },
-  { id: 3, text: 'Coletando telefones e endereços...',      ms: 700  },
-  { id: 4, text: 'Verificando presença de sites...',        ms: 700  },
-  { id: 5, text: 'Analisando avaliações e porte...',        ms: 600  },
-  { id: 6, text: 'Calculando score de qualificação...',     ms: 500  },
-  { id: 7, text: 'Ordenando leads por potencial...',        ms: 400  },
+  { id: 1, text: 'Conectando ao Google Places...',      ms: 600 },
+  { id: 2, text: 'Buscando negócios na região...',      ms: 800 },
+  { id: 3, text: 'Coletando telefones e endereços...', ms: 700 },
+  { id: 4, text: 'Verificando presença de sites...',   ms: 700 },
+  { id: 5, text: 'Analisando avaliações e porte...',   ms: 600 },
+  { id: 6, text: 'Calculando score de qualificação...', ms: 500 },
+  { id: 7, text: 'Ordenando leads por potencial...',   ms: 400 },
 ]
 
-// apiDone: boolean controlled by parent (true when fetch resolves)
-// onComplete: called when animation is done AND apiDone is true
 export default function AgentProgress({ niche, cidade, apiDone, onComplete }) {
-  const [currentStep, setCurrentStep] = useState(0)
+  const [currentStep, setCurrentStep]     = useState(0)
   const [completedSteps, setCompletedSteps] = useState([])
-  const [waitingApi, setWaitingApi] = useState(false)
-  const animDone = useRef(false)
+  const [waitingApi, setWaitingApi]       = useState(false)
+  const animDoneRef = useRef(false)
+  const apiDoneRef  = useRef(apiDone)
+  const completedRef = useRef(false)
 
+  // Keep apiDoneRef in sync with the prop
+  useEffect(() => {
+    apiDoneRef.current = apiDone
+  }, [apiDone])
+
+  function finish() {
+    if (completedRef.current) return
+    completedRef.current = true
+    setTimeout(onComplete, 300)
+  }
+
+  // Run animation steps
   useEffect(() => {
     let step = 0
     let cancelled = false
@@ -25,8 +37,13 @@ export default function AgentProgress({ niche, cidade, apiDone, onComplete }) {
     function runNext() {
       if (cancelled) return
       if (step >= STEPS.length) {
-        animDone.current = true
-        setWaitingApi(true)
+        animDoneRef.current = true
+        // If API already finished while we were animating, complete now
+        if (apiDoneRef.current) {
+          finish()
+        } else {
+          setWaitingApi(true)
+        }
         return
       }
       setCurrentStep(step)
@@ -40,14 +57,16 @@ export default function AgentProgress({ niche, cidade, apiDone, onComplete }) {
 
     setTimeout(runNext, 200)
     return () => { cancelled = true }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // When api resolves after animation is done, complete
+  // If API finishes after the animation is already done, complete now
   useEffect(() => {
-    if (apiDone && animDone.current) {
-      setTimeout(onComplete, 300)
+    if (apiDone && animDoneRef.current) {
+      finish()
     }
-  }, [apiDone, onComplete])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [apiDone])
 
   const progress = Math.round((completedSteps.length / STEPS.length) * 100)
 

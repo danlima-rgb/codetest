@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import './index.css'
 import SearchForm from './components/SearchForm.jsx'
 import AgentProgress from './components/AgentProgress.jsx'
@@ -9,30 +9,22 @@ import { NICHES } from './data/niches.js'
 
 const VIEW = { FORM: 'form', LOADING: 'loading', RESULTS: 'results' }
 
-const ERROR_MESSAGES = {
-  API_KEY_MISSING: null, // handled separately as warning
-  ZERO_RESULTS: 'Nenhum negócio encontrado para esse nicho e cidade. Tente outra combinação.',
-}
-
 export default function App() {
-  const [view, setView]               = useState(VIEW.FORM)
+  const [view, setView]                 = useState(VIEW.FORM)
   const [searchParams, setSearchParams] = useState(null)
-  const [leads, setLeads]             = useState([])
-  const [apiDone, setApiDone]         = useState(false)
-  const [animDone, setAnimDone]       = useState(false)
-  const [error, setError]             = useState(null)
-  const [usingMock, setUsingMock]     = useState(false)
+  const [leads, setLeads]               = useState([])
+  const [apiDone, setApiDone]           = useState(false)
+  const [error, setError]               = useState(null)
+  const [usingMock, setUsingMock]       = useState(false)
   const leadsRef = useRef([])
 
   function handleSearch(params) {
     setSearchParams(params)
     setApiDone(false)
-    setAnimDone(false)
     setError(null)
     setUsingMock(false)
+    leadsRef.current = []
     setView(VIEW.LOADING)
-
-    const nicheData = NICHES.find(n => n.value === params.niche) || NICHES[0]
 
     const doFetch = hasApiKey()
       ? fetchPlacesLeads(params.niche, params.cidade, params.quantidade)
@@ -41,9 +33,7 @@ export default function App() {
     doFetch
       .then(results => {
         if (results === null) {
-          // No API key — fall back to mock
-          const mock = generateLeads(params.niche, params.cidade, params.quantidade, Date.now())
-          leadsRef.current = mock
+          leadsRef.current = generateLeads(params.niche, params.cidade, params.quantidade, Date.now())
           setUsingMock(true)
         } else {
           leadsRef.current = results
@@ -52,32 +42,26 @@ export default function App() {
       })
       .catch(err => {
         if (err.message === 'ZERO_RESULTS') {
-          setError(ERROR_MESSAGES.ZERO_RESULTS)
+          setError('Nenhum negócio encontrado. Tente outra cidade ou nicho.')
+          leadsRef.current = []
         } else {
-          // Any other API error → fallback to mock with warning
-          const mock = generateLeads(params.niche, params.cidade, params.quantidade, Date.now())
-          leadsRef.current = mock
-          setError(`API: ${err.message} — exibindo dados simulados.`)
+          leadsRef.current = generateLeads(params.niche, params.cidade, params.quantidade, Date.now())
+          setError(`Erro na API: ${err.message} — exibindo dados simulados.`)
           setUsingMock(true)
         }
         setApiDone(true)
       })
   }
 
-  const handleAnimComplete = useCallback(() => {
-    setAnimDone(true)
-  }, [])
-
-  useEffect(() => {
-    if (apiDone && animDone) {
-      if (error && leadsRef.current.length === 0) {
-        setView(VIEW.FORM)
-      } else {
-        setLeads(leadsRef.current)
-        setView(VIEW.RESULTS)
-      }
+  // Called by AgentProgress when animation + API are both done
+  const handleComplete = useCallback(() => {
+    if (leadsRef.current.length === 0) {
+      setView(VIEW.FORM)
+    } else {
+      setLeads(leadsRef.current)
+      setView(VIEW.RESULTS)
     }
-  }, [apiDone, animDone, error])
+  }, [])
 
   function handleReset() {
     setView(VIEW.FORM)
@@ -135,22 +119,14 @@ export default function App() {
                 para buscar negócios reais do Google Maps.
               </p>
             </div>
-            <a
-              href="https://console.cloud.google.com/apis/library/places-backend.googleapis.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-ghost text-xs whitespace-nowrap"
-            >
-              Obter API key ↗
-            </a>
           </div>
         </div>
       )}
 
       {/* Error banner */}
-      {error && view !== VIEW.FORM && (
+      {error && view === VIEW.FORM && (
         <div className="relative z-10 max-w-5xl mx-auto px-4 pt-4">
-          <div className="bg-warning/8 border border-warning/25 rounded-xl px-5 py-3 text-warning text-xs">
+          <div className="bg-danger/8 border border-danger/25 rounded-xl px-5 py-3 text-danger text-xs">
             ⚠️ {error}
           </div>
         </div>
@@ -168,18 +144,27 @@ export default function App() {
               niche={nicheLabel}
               cidade={searchParams.cidade}
               apiDone={apiDone}
-              onComplete={handleAnimComplete}
+              onComplete={handleComplete}
             />
           </div>
         )}
 
         {view === VIEW.RESULTS && (
-          <ClientList
-            leads={leads}
-            searchParams={{ ...searchParams, niche: nicheLabel }}
-            isReal={hasApiKey() && !usingMock}
-            onReset={handleReset}
-          />
+          <>
+            {error && (
+              <div className="max-w-3xl mx-auto mb-4">
+                <div className="bg-warning/8 border border-warning/25 rounded-xl px-5 py-3 text-warning text-xs">
+                  ⚠️ {error}
+                </div>
+              </div>
+            )}
+            <ClientList
+              leads={leads}
+              searchParams={{ ...searchParams, niche: nicheLabel }}
+              isReal={hasApiKey() && !usingMock}
+              onReset={handleReset}
+            />
+          </>
         )}
       </main>
 
