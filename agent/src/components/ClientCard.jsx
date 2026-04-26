@@ -168,12 +168,12 @@ export default function ClientCard({ client, onStatusChange, rank }) {
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 {[
-                  { label: 'Ausência de site', val: client.semSite ? 35 : client.siteDesatualizado ? 20 : 0, max: 35 },
-                  { label: 'Presença digital', val: (client.instagramAtivo ? 12 : 0) + (client.googleMaps ? 8 : 0), max: 20 },
-                  { label: 'Porte do negócio', val: client.porte === 'Grande' ? 28 : client.porte === 'Médio' ? 18 : 8, max: 28 },
-                  { label: 'Tempo de mercado', val: Math.min(10, Math.floor(client.tempoMercado / 2)), max: 10 },
-                  { label: 'Avaliações', val: client.avaliacoes >= 100 ? 8 : client.avaliacoes >= 30 ? 5 : client.avaliacoes >= 10 ? 2 : 0, max: 8 },
-                  { label: 'Nicho premium', val: 5, max: 5 },
+                  { label: 'Site desatualizado', val: client.siteDesatualizado ? 30 : 0, max: 30 },
+                  { label: 'Instagram ativo',    val: client.instagramAtivo ? 20 : 0, max: 20 },
+                  { label: 'Google Maps',        val: client.googleMaps ? 10 : 0, max: 10 },
+                  { label: 'Porte do negócio',   val: client.porte === 'Grande' ? 28 : client.porte === 'Médio' ? 18 : 8, max: 28 },
+                  { label: 'Tempo de mercado',   val: Math.min(10, Math.floor(client.tempoMercado / 2)), max: 10 },
+                  { label: 'Avaliações',         val: client.avaliacoes >= 100 ? 8 : client.avaliacoes >= 30 ? 5 : client.avaliacoes >= 10 ? 2 : 0, max: 8 },
                 ].map(item => (
                   <div key={item.label} className="bg-elevated rounded-lg p-2.5">
                     <p className="text-[10px] text-text-muted mb-1">{item.label}</p>

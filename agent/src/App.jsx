@@ -107,22 +107,6 @@ export default function App() {
         </div>
       </nav>
 
-      {/* API key warning banner */}
-      {!hasApiKey() && view === VIEW.FORM && (
-        <div className="relative z-10 max-w-5xl mx-auto px-4 pt-4">
-          <div className="bg-warning/8 border border-warning/25 rounded-xl px-5 py-3.5 flex flex-col sm:flex-row sm:items-center gap-3">
-            <div className="flex-1">
-              <p className="text-warning text-xs font-semibold mb-0.5">API key não configurada — modo demonstração</p>
-              <p className="text-text-muted text-xs">
-                Crie <code className="bg-elevated px-1.5 py-0.5 rounded text-accent font-mono">.env.local</code> com{' '}
-                <code className="bg-elevated px-1.5 py-0.5 rounded text-accent font-mono">VITE_GOOGLE_PLACES_API_KEY=sua_chave</code>{' '}
-                para buscar negócios reais do Google Maps.
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Error banner */}
       {error && view === VIEW.FORM && (
         <div className="relative z-10 max-w-5xl mx-auto px-4 pt-4">

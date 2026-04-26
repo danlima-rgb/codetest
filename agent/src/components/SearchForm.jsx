@@ -26,12 +26,12 @@ export default function SearchForm({ onSearch, loading }) {
           </span>
         </div>
         <h1 className="text-3xl sm:text-4xl font-light tracking-tight text-text-primary mb-3">
-          Encontre clientes prontos para{' '}
-          <span className="text-accent font-semibold">comprar um site</span>
+          Encontre negócios com{' '}
+          <span className="text-accent font-semibold">Instagram ativo e site desatualizado</span>
         </h1>
         <p className="text-text-muted text-sm leading-relaxed max-w-md mx-auto">
-          O agente analisa presença digital, porte e potencial de investimento
-          para gerar uma lista ranqueada de leads qualificados.
+          O agente busca negócios que já investem em marketing mas têm um site antigo —
+          o cliente ideal para oferecer um redesign de R$ 2.500 a R$ 10.000.
         </p>
       </div>
 
@@ -111,12 +111,12 @@ export default function SearchForm({ onSearch, loading }) {
         {/* Info chips */}
         <div className="flex flex-wrap gap-2 pt-1">
           {[
-            'Sem site detectado',
+            'Instagram ativo',
             'Site desatualizado',
-            'Presença no Instagram',
             'Google Maps ativo',
             'Porte do negócio',
             'Tempo de mercado',
+            'Avaliações',
           ].map(tag => (
             <span
               key={tag}

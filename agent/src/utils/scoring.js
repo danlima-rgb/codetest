@@ -2,10 +2,6 @@ import {
   NOME_PREFIXOS, SOBRENOMES_BR, NOMES_BR, NICHES,
 } from '../data/niches.js'
 
-function pick(arr) {
-  return arr[Math.floor(Math.random() * arr.length)]
-}
-
 function randInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
@@ -24,7 +20,6 @@ function generateBusinessName(niche, seed) {
   const tipo = prefixos[Math.floor(r() * prefixos.length)]
   const sobrenome = SOBRENOMES_BR[Math.floor(r() * SOBRENOMES_BR.length)]
   const nome = NOMES_BR[Math.floor(r() * NOMES_BR.length)]
-
   const patterns = [
     `${tipo} ${sobrenome}`,
     `${tipo} ${nome} ${sobrenome}`,
@@ -41,73 +36,59 @@ function generatePhone(seed) {
   return `(${ddd}) 9${String(n).slice(0, 4)}-${String(n).slice(4, 8)}`
 }
 
-function generateEmail(name, seed) {
+function generateEmail(name) {
   const slug = name
     .toLowerCase()
     .replace(/[^a-z0-9\s]/g, '')
     .replace(/\s+/g, '')
-    .slice(0, 18)
-  return `contato@${slug.slice(0, 12)}.com.br`
+    .slice(0, 12)
+  return `contato@${slug}.com.br`
 }
 
-function generateInstagramHandle(name) {
-  const slug = name
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')  // remove accents
-    .replace(/[^a-z0-9\s]/g, '')
-    .trim()
-    .replace(/\s+/g, '.')
-    .slice(0, 28)
-  return slug
+function instagramSearchUrl(nome) {
+  return `https://www.google.com/search?q=site%3Ainstagram.com+%22${encodeURIComponent(nome)}%22`
 }
 
-function generateInstagramUrl(nome, instagramAtivo) {
-  if (!instagramAtivo) return null
-  const handle = generateInstagramHandle(nome)
-  return `https://www.instagram.com/${handle}/`
+function googleMapsSearchUrl(nome, cidade) {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${nome} ${cidade}`)}`
 }
 
-function generateGoogleMapsUrl(nome, cidade, googleMaps) {
-  if (!googleMaps) return null
-  const query = encodeURIComponent(`${nome} ${cidade}`)
-  return `https://www.google.com/maps/search/?api=1&query=${query}`
-}
-
+// Score para clientes com SITE EXISTENTE + INSTAGRAM ATIVO
+// Foco em: quão urgente é o redesign e quão provável o investimento
 export function calcScore(flags) {
   const {
-    semSite,        // 0 or 1
-    siteDesatualizado, // 0 or 1
-    instagramAtivo, // 0 or 1
-    googleMaps,     // 0 or 1
-    porteScore,     // 0-30
-    tempoMercado,   // anos (1-20)
-    avaliacoes,     // count
+    siteDesatualizado,  // tem site velho = precisa de redesign
+    instagramAtivo,     // tem Instagram = investe em marketing
+    googleMaps,         // está no Maps = negócio ativo
+    porteScore,         // porte do negócio
+    tempoMercado,       // anos no mercado
+    avaliacoes,         // avaliações no Google
     nichoCompetitivo,
   } = flags
 
   let score = 0
 
-  // Ausência de site (maior peso)
-  if (semSite) score += 35
-  else if (siteDesatualizado) score += 20
+  // Site desatualizado = necessidade clara de redesign
+  if (siteDesatualizado) score += 30
 
-  // Presença digital indica orçamento para marketing
-  if (instagramAtivo) score += 12
-  if (googleMaps) score += 8
+  // Instagram ativo = já investe em marketing, tem orçamento
+  if (instagramAtivo) score += 20
+
+  // Presença no Google Maps = negócio estabelecido
+  if (googleMaps) score += 10
 
   // Porte
   score += porteScore
 
-  // Tempo de mercado (negócio consolidado = mais dinheiro)
+  // Tempo de mercado (consolidado = mais orçamento)
   score += Math.min(10, Math.floor(tempoMercado / 2))
 
-  // Avaliações (reputação = faturamento)
+  // Avaliações
   if (avaliacoes >= 100) score += 8
   else if (avaliacoes >= 30) score += 5
   else if (avaliacoes >= 10) score += 2
 
-  // Nicho premium
+  // Nicho premium (concorrência = disposição para pagar mais)
   if (nichoCompetitivo) score += 5
 
   return Math.min(100, Math.max(0, score))
@@ -129,14 +110,11 @@ export function scoreLabel(score) {
 }
 
 export function generateAbordagem(client) {
-  const nome = client.nome.split(' ')[0]
-  if (client.semSite) {
-    return `"Olá, ${nome}! Vi seu negócio no Google e notei que você ainda não tem um site. Tenho ajudado clientes na mesma situação a atrair 3x mais clientes online. Posso apresentar uma proposta rápida?"`
-  }
+  const primeiroNome = client.nome.split(' ').find(p => p.length > 2) || client.nome.split(' ')[0]
   if (client.siteDesatualizado) {
-    return `"${nome}, seu site atual não reflete a qualidade do seu trabalho. Com um site moderno, você pode aumentar sua captação de leads em 60%. Quando podemos conversar?"`
+    return `"Olá, ${primeiroNome}! Vi o perfil de vocês no Instagram e fui ao site — percebi que ele não reflete mais o nível do negócio. Com um site moderno integrado ao Instagram, vocês podem converter muito mais seguidores em clientes. Posso apresentar uma proposta em 5 minutos?"`
   }
-  return `"${nome}, encontrei sua empresa e acredito que posso ajudá-lo a converter mais visitantes em clientes através de um site otimizado. Tenho disponibilidade para uma call de 20min?"`
+  return `"${primeiroNome}, vi que vocês têm uma boa presença no Instagram. Um site mais profissional e rápido pode dobrar a conversão dos visitantes em clientes. Tenho cases no seu segmento — quando podemos conversar?"`
 }
 
 export function generateLeads(niche, cidade, count = 15, searchSeed = Date.now()) {
@@ -145,15 +123,15 @@ export function generateLeads(niche, cidade, count = 15, searchSeed = Date.now()
 
   for (let i = 0; i < count; i++) {
     const seed = searchSeed + i * 7919
-
     const r = seededRand(seed)
 
-    const semSite        = r() < 0.52
-    const siteDesatualizado = !semSite && r() < 0.45
-    const instagramAtivo = r() < 0.72
-    const googleMaps     = r() < 0.65
-    const tempoMercado   = randInt(1, 18)
-    const avaliacoes     = googleMaps ? randInt(3, 280) : 0
+    // Perfil alvo: TEM site (mesmo desatualizado) + TEM Instagram
+    const semSite        = false                   // nunca sem site
+    const siteDesatualizado = r() < 0.78           // maioria com site velho
+    const instagramAtivo = true                    // sempre tem Instagram
+    const googleMaps     = r() < 0.85             // maioria no Maps
+    const tempoMercado   = randInt(2, 18)
+    const avaliacoes     = googleMaps ? randInt(8, 320) : 0
     const porteOptions   = [
       { label: 'Pequeno', score: 8  },
       { label: 'Médio',   score: 18 },
@@ -172,9 +150,9 @@ export function generateLeads(niche, cidade, count = 15, searchSeed = Date.now()
       nichoCompetitivo: nicheData.competitivo,
     }
 
-    const score = calcScore(flags)
-    const ticket = estimateTicket(score, nicheData)
     const nome   = generateBusinessName(niche, seed)
+    const score  = calcScore(flags)
+    const ticket = estimateTicket(score, nicheData)
     const meta   = scoreLabel(score)
 
     leads.push({
@@ -184,16 +162,17 @@ export function generateLeads(niche, cidade, count = 15, searchSeed = Date.now()
       nicheIcon: nicheData.icon,
       cidade,
       telefone: generatePhone(seed),
-      email: generateEmail(nome, seed),
+      email: generateEmail(nome),
       score,
       scoreMeta: meta,
       ticket,
-      semSite,
+      semSite: false,
       siteDesatualizado,
-      instagramAtivo,
-      instagramUrl: generateInstagramUrl(nome, instagramAtivo),
+      siteUrl: null,
+      instagramAtivo: true,
+      instagramUrl: instagramSearchUrl(nome),
       googleMaps,
-      googleMapsUrl: generateGoogleMapsUrl(nome, cidade, googleMaps),
+      googleMapsUrl: googleMapsSearchUrl(nome, cidade),
       tempoMercado,
       avaliacoes,
       porte: porte.label,
@@ -202,7 +181,6 @@ export function generateLeads(niche, cidade, count = 15, searchSeed = Date.now()
     })
   }
 
-  // Assign abordagem after object is created
   for (const lead of leads) {
     lead.abordagem = generateAbordagem(lead)
   }
@@ -212,22 +190,20 @@ export function generateLeads(niche, cidade, count = 15, searchSeed = Date.now()
 
 export function exportCSV(leads) {
   const headers = [
-    'Nome', 'Cidade', 'Score', 'Qualificação', 'Sem Site', 'Site Desatualizado',
-    'Instagram', 'Link Instagram', 'Google Maps', 'Link Google Maps',
+    'Nome', 'Cidade', 'Score', 'Qualificação',
+    'Site Desatualizado', 'Link Site', 'Link Instagram', 'Google Maps',
     'Porte', 'Anos no Mercado', 'Avaliações',
     'Ticket Min (R$)', 'Ticket Max (R$)', 'Telefone', 'Email', 'Status',
   ]
   const rows = leads.map(l => [
     l.nome, l.cidade, l.score, l.scoreMeta.label,
-    l.semSite ? 'Sim' : 'Não',
     l.siteDesatualizado ? 'Sim' : 'Não',
-    l.instagramAtivo ? 'Sim' : 'Não',
+    l.siteUrl || '',
     l.instagramUrl || '',
-    l.googleMaps ? 'Sim' : 'Não',
     l.googleMapsUrl || '',
     l.porte, l.tempoMercado, l.avaliacoes,
     l.ticket.low, l.ticket.high,
-    l.telefone, l.email, l.status,
+    l.telefone || '', l.email || '', l.status,
   ])
   const csv = [headers, ...rows].map(r => r.map(c => `"${c}"`).join(',')).join('\n')
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
