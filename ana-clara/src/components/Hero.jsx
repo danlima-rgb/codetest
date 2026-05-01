@@ -1,4 +1,5 @@
 import { ArrowRight, MapPin } from 'lucide-react';
+import foto from '../assets/foto.js';
 
 export default function Hero() {
   return (
@@ -10,7 +11,7 @@ export default function Hero() {
       {/* Full-bleed background photo */}
       <div className="absolute inset-0">
         <img
-          src="/foto.jpg"
+          src={foto}
           alt="Ana Clara Laranja"
           style={{
             width: '100%',
