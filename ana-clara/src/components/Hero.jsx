@@ -12,7 +12,7 @@ export default function Hero() {
   return (
     <>
       {/* ── MOBILE ─────────────────────────────────────────── */}
-      <section id="topo" className="md:hidden flex flex-col" style={{ minHeight: '100svh' }}>
+      <section id="topo" className="md:hidden flex flex-col" style={{ minHeight: '110svh' }}>
 
         {/* Bloco superior: texto sobre fundo escuro */}
         <div
@@ -70,7 +70,7 @@ export default function Hero() {
         </div>
 
         {/* Bloco inferior: foto com rosto visível */}
-        <div className="relative flex-1" style={{ minHeight: '340px' }}>
+        <div className="relative flex-1" style={{ minHeight: '460px' }}>
           <img
             src={foto}
             alt="Ana Clara Laranja — Psicóloga"
@@ -78,7 +78,7 @@ export default function Hero() {
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              objectPosition: '55% 28%',
+              objectPosition: '50% 42%',
               display: 'block',
             }}
           />
@@ -114,7 +114,7 @@ export default function Hero() {
           <img
             src={foto}
             alt="Ana Clara Laranja"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '65% 25%' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 42%' }}
           />
           <div
             className="absolute inset-0"
