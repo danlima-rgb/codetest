@@ -17,46 +17,27 @@ export default function Hero() {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            objectPosition: '60% 18%',
+            objectPosition: '55% 35%',
           }}
         />
 
-        {/* Mobile: escurece de baixo p/ cima — rosto fica claro */}
+        {/* Gradiente escuro no TOPO — texto legível; base transparente — rosto visível */}
         <div
-          className="absolute inset-0 md:hidden"
+          className="absolute inset-0"
           style={{
-            background: `linear-gradient(to top,
-              rgba(15,8,3,0.97) 0%,
-              rgba(15,8,3,0.85) 28%,
-              rgba(15,8,3,0.35) 52%,
-              rgba(15,8,3,0.05) 72%,
+            background: `linear-gradient(to bottom,
+              rgba(15,8,3,0.82) 0%,
+              rgba(15,8,3,0.65) 20%,
+              rgba(15,8,3,0.30) 42%,
+              rgba(15,8,3,0.05) 62%,
               transparent 100%
             )`,
-          }}
-        />
-
-        {/* Desktop: escurece da esquerda — rosto fica à direita */}
-        <div
-          className="absolute inset-0 hidden md:block"
-          style={{
-            background: `
-              linear-gradient(to right,
-                rgba(15,8,3,0.88) 0%,
-                rgba(15,8,3,0.60) 40%,
-                rgba(15,8,3,0.15) 65%,
-                transparent 100%
-              ),
-              linear-gradient(to top,
-                rgba(15,8,3,0.70) 0%,
-                transparent 30%
-              )
-            `,
           }}
         />
       </div>
 
       {/* Content — mobile: fica na base; desktop: centralizado à esquerda */}
-      <div className="relative z-10 h-full max-w-6xl mx-auto px-6 flex flex-col justify-end md:justify-center pb-32 md:pb-0">
+      <div className="relative z-10 h-full max-w-6xl mx-auto px-6 flex flex-col justify-start pt-20">
         <div className="max-w-lg">
 
           {/* Badge */}
