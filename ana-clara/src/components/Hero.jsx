@@ -30,7 +30,7 @@ export default function Hero() {
       {/* ── MOBILE (< 768px) ─────────────────────────────── */}
       <div
         className="md:hidden relative flex flex-col"
-        style={{ height: '100lvh', overflow: 'hidden', background: '#1C1008' }}
+        style={{ height: '844px', overflow: 'hidden', background: '#1C1008' }}
       >
         {/* Foto full-bleed */}
         <div className="absolute inset-0">
