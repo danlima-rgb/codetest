@@ -4,91 +4,111 @@ export default function Hero() {
   return (
     <section
       id="topo"
-      className="min-h-screen flex items-center pt-16"
-      style={{ background: 'linear-gradient(160deg, #FAF8F5 60%, #F5EDE3 100%)' }}
+      className="relative overflow-hidden"
+      style={{ height: '100svh', minHeight: '600px', background: '#2A1F1A' }}
     >
-      <div className="max-w-5xl mx-auto px-6 py-20 w-full">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+      {/* Full-bleed background photo */}
+      <div className="absolute inset-0">
+        <img
+          src="/foto.jpg"
+          alt="Ana Clara Laranja"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'center 12%',
+          }}
+        />
+        {/* Gradient overlay — strong on left, fades right on desktop; bottom on mobile */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `
+              linear-gradient(to right, rgba(30,18,10,0.82) 0%, rgba(30,18,10,0.55) 45%, rgba(30,18,10,0.10) 100%),
+              linear-gradient(to top, rgba(30,18,10,0.6) 0%, transparent 40%)
+            `,
+          }}
+        />
+      </div>
 
-          {/* Text */}
-          <div className="order-2 md:order-1">
-            <p className="eyebrow mb-5">Psicóloga · CRP 16/11510</p>
+      {/* Content */}
+      <div className="relative z-10 h-full max-w-6xl mx-auto px-6 flex flex-col justify-center">
+        <div className="max-w-xl">
 
-            <h1 className="hero-headline text-stone-900 mb-6">
-              Entre a rotina,{' '}
-              <em className="not-italic" style={{ color: '#B5734A' }}>
-                o cuidado
-              </em>{' '}
-              e uma vida leve
-            </h1>
-
-            <p className="text-stone-600 text-lg leading-relaxed mb-8 max-w-md">
-              Atendimentos psicológicos individuais com foco em bem‑estar emocional,
-              autoconhecimento e qualidade de vida. Online e presencial.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-3 mb-10">
-              <a
-                href="https://wa.me/message/6UVITCQEF3U"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary"
-              >
-                Agendar minha sessão
-                <ArrowRight size={16} />
-              </a>
-              <a href="#sobre" className="btn-outline">
-                Conhecer mais
-              </a>
-            </div>
-
-            <div className="flex items-center gap-2 text-stone-500 text-sm">
-              <MapPin size={14} style={{ color: '#B5734A' }} />
-              <span>Clínica Integra · Espírito Santo, Brasil</span>
-            </div>
+          {/* Badge */}
+          <div className="flex items-center gap-2 mb-6">
+            <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+            <span className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.75)' }}>
+              Aceita novos pacientes · CRP 16/11510
+            </span>
           </div>
 
-          {/* Photo */}
-          <div className="order-1 md:order-2 flex justify-center md:justify-end">
-            <div className="relative">
-              {/* Decorative rings */}
-              <div
-                className="absolute -top-4 -right-4 w-40 h-40 rounded-full border-2 opacity-20 z-0"
-                style={{ borderColor: '#B5734A' }}
-              />
-              <div
-                className="absolute -bottom-4 -left-4 w-24 h-24 rounded-full border-2 opacity-15 z-0"
-                style={{ borderColor: '#8B9E88' }}
-              />
+          {/* Headline */}
+          <h1
+            className="font-serif mb-5 leading-tight"
+            style={{ fontSize: 'clamp(40px, 6vw, 72px)', fontWeight: 400, color: '#fff' }}
+          >
+            Entre a rotina,{' '}
+            <em className="not-italic" style={{ color: '#D4956E' }}>o cuidado</em>
+            <br />e uma vida leve
+          </h1>
 
-              {/* 3:4 photo frame */}
-              <div
-                className="relative z-10 rounded-3xl overflow-hidden shadow-2xl"
-                style={{ width: '300px', aspectRatio: '3/4' }}
-              >
-                <img
-                  src="/foto.jpg"
-                  alt="Ana Clara Laranja — Psicóloga"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    objectPosition: 'center 15%',
-                  }}
-                />
+          {/* Sub */}
+          <p
+            className="text-lg leading-relaxed mb-8"
+            style={{ color: 'rgba(255,255,255,0.72)', maxWidth: '440px' }}
+          >
+            Atendimentos psicológicos individuais com foco em bem‑estar emocional,
+            autoconhecimento e qualidade de vida.
+          </p>
 
-                {/* Badge */}
-                <div className="absolute bottom-5 left-1/2 -translate-x-1/2 bg-white rounded-2xl px-4 py-2.5 shadow-lg flex items-center gap-2 whitespace-nowrap">
-                  <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                  <span className="text-xs font-medium text-stone-700">Aceita novos pacientes</span>
-                </div>
-              </div>
-            </div>
+          {/* CTAs */}
+          <div className="flex flex-wrap gap-3 mb-10">
+            <a
+              href="https://wa.me/message/6UVITCQEF3U"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 font-medium rounded-full transition-all"
+              style={{
+                background: '#B5734A',
+                color: '#fff',
+                padding: '14px 28px',
+                fontSize: '15px',
+              }}
+            >
+              Agendar minha sessão
+              <ArrowRight size={16} />
+            </a>
+            <a
+              href="#sobre"
+              className="inline-flex items-center gap-2 font-medium rounded-full transition-all"
+              style={{
+                background: 'rgba(255,255,255,0.12)',
+                color: '#fff',
+                padding: '14px 28px',
+                fontSize: '15px',
+                border: '1px solid rgba(255,255,255,0.25)',
+                backdropFilter: 'blur(8px)',
+              }}
+            >
+              Conhecer mais
+            </a>
+          </div>
+
+          {/* Location */}
+          <div className="flex items-center gap-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <MapPin size={13} style={{ color: '#D4956E' }} />
+            <span className="text-sm">Clínica Integra · Espírito Santo · Online e presencial</span>
           </div>
         </div>
+      </div>
 
-        {/* Trust bar */}
-        <div className="mt-16 pt-10 border-t border-stone-200 grid grid-cols-2 sm:grid-cols-4 gap-6">
+      {/* Trust bar — bottom strip */}
+      <div
+        className="absolute bottom-0 left-0 right-0 z-10"
+        style={{ background: 'rgba(20,12,6,0.55)', backdropFilter: 'blur(12px)' }}
+      >
+        <div className="max-w-6xl mx-auto px-6 py-4 grid grid-cols-2 sm:grid-cols-4 gap-4">
           {[
             { value: 'Online', label: 'e presencial' },
             { value: 'CRP', label: '16/11510' },
@@ -96,8 +116,8 @@ export default function Hero() {
             { value: 'ES', label: 'Espírito Santo' },
           ].map((item) => (
             <div key={item.label} className="text-center">
-              <p className="font-serif text-xl font-medium text-stone-800">{item.value}</p>
-              <p className="text-sm text-stone-500 mt-0.5">{item.label}</p>
+              <p className="font-serif text-base font-medium" style={{ color: '#D4956E' }}>{item.value}</p>
+              <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.5)' }}>{item.label}</p>
             </div>
           ))}
         </div>
