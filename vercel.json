@@ -1,0 +1,5 @@
+{
+  "buildCommand": "cd ana-clara && npm install && npm run build",
+  "outputDirectory": "ana-clara/dist",
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}
