@@ -6,7 +6,7 @@ export default function Hero() {
     <section
       id="topo"
       className="relative overflow-hidden"
-      style={{ height: '100svh', minHeight: '600px', background: '#2A1F1A' }}
+      style={{ height: '100svh', minHeight: '620px', background: '#1C1008' }}
     >
       {/* Full-bleed background photo */}
       <div className="absolute inset-0">
@@ -17,108 +17,125 @@ export default function Hero() {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            objectPosition: 'center 12%',
+            objectPosition: '60% 18%',
           }}
         />
-        {/* Gradient overlay — strong on left, fades right on desktop; bottom on mobile */}
+
+        {/* Mobile: escurece de baixo p/ cima — rosto fica claro */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 md:hidden"
+          style={{
+            background: `linear-gradient(to top,
+              rgba(15,8,3,0.97) 0%,
+              rgba(15,8,3,0.85) 28%,
+              rgba(15,8,3,0.35) 52%,
+              rgba(15,8,3,0.05) 72%,
+              transparent 100%
+            )`,
+          }}
+        />
+
+        {/* Desktop: escurece da esquerda — rosto fica à direita */}
+        <div
+          className="absolute inset-0 hidden md:block"
           style={{
             background: `
-              linear-gradient(to right, rgba(30,18,10,0.82) 0%, rgba(30,18,10,0.55) 45%, rgba(30,18,10,0.10) 100%),
-              linear-gradient(to top, rgba(30,18,10,0.6) 0%, transparent 40%)
+              linear-gradient(to right,
+                rgba(15,8,3,0.88) 0%,
+                rgba(15,8,3,0.60) 40%,
+                rgba(15,8,3,0.15) 65%,
+                transparent 100%
+              ),
+              linear-gradient(to top,
+                rgba(15,8,3,0.70) 0%,
+                transparent 30%
+              )
             `,
           }}
         />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 h-full max-w-6xl mx-auto px-6 flex flex-col justify-center">
-        <div className="max-w-xl">
+      {/* Content — mobile: fica na base; desktop: centralizado à esquerda */}
+      <div className="relative z-10 h-full max-w-6xl mx-auto px-6 flex flex-col justify-end md:justify-center pb-32 md:pb-0">
+        <div className="max-w-lg">
 
           {/* Badge */}
-          <div className="flex items-center gap-2 mb-6">
+          <div className="flex items-center gap-2 mb-5">
             <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-            <span className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.75)' }}>
+            <span className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.70)' }}>
               Aceita novos pacientes · CRP 16/11510
             </span>
           </div>
 
           {/* Headline */}
           <h1
-            className="font-serif mb-5 leading-tight"
-            style={{ fontSize: 'clamp(40px, 6vw, 72px)', fontWeight: 400, color: '#fff' }}
+            className="font-serif mb-4 leading-tight"
+            style={{ fontSize: 'clamp(34px, 5.5vw, 68px)', fontWeight: 400, color: '#fff' }}
           >
             Entre a rotina,{' '}
             <em className="not-italic" style={{ color: '#D4956E' }}>o cuidado</em>
             <br />e uma vida leve
           </h1>
 
-          {/* Sub */}
+          {/* Sub — mais curto no mobile */}
           <p
-            className="text-lg leading-relaxed mb-8"
-            style={{ color: 'rgba(255,255,255,0.72)', maxWidth: '440px' }}
+            className="leading-relaxed mb-7"
+            style={{ fontSize: '15px', color: 'rgba(255,255,255,0.68)', maxWidth: '400px' }}
           >
-            Atendimentos psicológicos individuais com foco em bem‑estar emocional,
-            autoconhecimento e qualidade de vida.
+            Psicoterapia individual online e presencial.
+            Um espaço seguro para se reconectar consigo.
           </p>
 
-          {/* CTAs */}
-          <div className="flex flex-wrap gap-3 mb-10">
+          {/* CTAs — lado a lado */}
+          <div className="flex flex-row gap-3 flex-wrap">
             <a
               href="https://wa.me/message/6UVITCQEF3U"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 font-medium rounded-full transition-all"
+              className="inline-flex items-center gap-2 font-medium rounded-full"
               style={{
                 background: '#B5734A',
                 color: '#fff',
-                padding: '14px 28px',
-                fontSize: '15px',
+                padding: '13px 24px',
+                fontSize: '14px',
               }}
             >
-              Agendar minha sessão
-              <ArrowRight size={16} />
+              Agendar sessão
+              <ArrowRight size={15} />
             </a>
             <a
               href="#sobre"
-              className="inline-flex items-center gap-2 font-medium rounded-full transition-all"
+              className="inline-flex items-center font-medium rounded-full"
               style={{
-                background: 'rgba(255,255,255,0.12)',
+                background: 'rgba(255,255,255,0.10)',
                 color: '#fff',
-                padding: '14px 28px',
-                fontSize: '15px',
-                border: '1px solid rgba(255,255,255,0.25)',
+                padding: '13px 24px',
+                fontSize: '14px',
+                border: '1px solid rgba(255,255,255,0.22)',
                 backdropFilter: 'blur(8px)',
               }}
             >
               Conhecer mais
             </a>
           </div>
-
-          {/* Location */}
-          <div className="flex items-center gap-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
-            <MapPin size={13} style={{ color: '#D4956E' }} />
-            <span className="text-sm">Clínica Integra · Espírito Santo · Online e presencial</span>
-          </div>
         </div>
       </div>
 
-      {/* Trust bar — bottom strip */}
+      {/* Trust bar */}
       <div
         className="absolute bottom-0 left-0 right-0 z-10"
-        style={{ background: 'rgba(20,12,6,0.55)', backdropFilter: 'blur(12px)' }}
+        style={{ background: 'rgba(10,5,2,0.65)', backdropFilter: 'blur(14px)' }}
       >
-        <div className="max-w-6xl mx-auto px-6 py-4 grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div className="max-w-6xl mx-auto px-6 py-3 grid grid-cols-4 gap-2">
           {[
             { value: 'Online', label: 'e presencial' },
             { value: 'CRP', label: '16/11510' },
             { value: 'Clínica', label: 'Integra' },
-            { value: 'ES', label: 'Espírito Santo' },
+            { value: 'ES', label: 'Brasil' },
           ].map((item) => (
             <div key={item.label} className="text-center">
-              <p className="font-serif text-base font-medium" style={{ color: '#D4956E' }}>{item.value}</p>
-              <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.5)' }}>{item.label}</p>
+              <p className="font-serif text-sm font-medium" style={{ color: '#D4956E' }}>{item.value}</p>
+              <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.45)', marginTop: '1px' }}>{item.label}</p>
             </div>
           ))}
         </div>
