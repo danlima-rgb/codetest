@@ -62,11 +62,11 @@ export default function Hero() {
             className="font-serif mb-3"
             style={{ fontSize: '36px', fontWeight: 400, color: '#fff', lineHeight: 1.15 }}
           >
-            Entre a rotina,
+            Sua vida merece
             <br />
-            <em className="not-italic" style={{ color: '#D4956E' }}>o cuidado</em>
+            <em className="not-italic" style={{ color: '#D4956E' }}>leveza e cuidado</em>
             <br />
-            e uma vida leve
+            além da correria
           </h1>
           <p className="mb-6 leading-relaxed" style={{ fontSize: '14px', color: 'rgba(255,255,255,0.68)', maxWidth: '320px' }}>
             Psicoterapia individual online e presencial —
@@ -139,9 +139,10 @@ export default function Hero() {
               className="font-serif mb-4 leading-tight"
               style={{ fontSize: 'clamp(42px, 5vw, 68px)', fontWeight: 400, color: '#fff' }}
             >
-              Entre a rotina,{' '}
-              <em className="not-italic" style={{ color: '#D4956E' }}>o cuidado</em>
-              <br />e uma vida leve
+              Sua vida merece
+              <br />
+              <em className="not-italic" style={{ color: '#D4956E' }}>leveza e cuidado</em>
+              <br />além da correria
             </h1>
             <p className="mb-8 leading-relaxed" style={{ fontSize: '16px', color: 'rgba(255,255,255,0.68)', maxWidth: '400px' }}>
               Psicoterapia individual online e presencial —
