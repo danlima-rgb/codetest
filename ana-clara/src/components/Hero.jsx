@@ -48,38 +48,40 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Photo placeholder */}
+          {/* Photo */}
           <div className="order-1 md:order-2 flex justify-center md:justify-end">
-            <div
-              className="relative w-72 h-80 md:w-80 md:h-96 rounded-3xl overflow-hidden shadow-xl"
-              style={{ background: '#EDE6DC' }}
-            >
+            <div className="relative">
               {/* Decorative rings */}
               <div
-                className="absolute -top-6 -right-6 w-40 h-40 rounded-full border-2 opacity-30"
+                className="absolute -top-4 -right-4 w-40 h-40 rounded-full border-2 opacity-20 z-0"
                 style={{ borderColor: '#B5734A' }}
               />
               <div
-                className="absolute -bottom-4 -left-4 w-28 h-28 rounded-full border-2 opacity-20"
+                className="absolute -bottom-4 -left-4 w-24 h-24 rounded-full border-2 opacity-15 z-0"
                 style={{ borderColor: '#8B9E88' }}
               />
 
-              {/* Initials placeholder */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-                <div
-                  className="w-20 h-20 rounded-full flex items-center justify-center text-white text-2xl font-serif font-medium shadow-md"
-                  style={{ background: '#B5734A' }}
-                >
-                  AC
-                </div>
-                <span className="text-stone-500 text-sm font-medium">Ana Clara Laranja</span>
-                <span className="text-stone-400 text-xs">Psicóloga</span>
-              </div>
+              {/* 3:4 photo frame */}
+              <div
+                className="relative z-10 rounded-3xl overflow-hidden shadow-2xl"
+                style={{ width: '300px', aspectRatio: '3/4' }}
+              >
+                <img
+                  src="/foto.jpg"
+                  alt="Ana Clara Laranja — Psicóloga"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    objectPosition: 'center 15%',
+                  }}
+                />
 
-              {/* Badge */}
-              <div className="absolute bottom-5 left-1/2 -translate-x-1/2 bg-white rounded-2xl px-4 py-2.5 shadow-lg flex items-center gap-2 whitespace-nowrap">
-                <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                <span className="text-xs font-medium text-stone-700">Aceita novos pacientes</span>
+                {/* Badge */}
+                <div className="absolute bottom-5 left-1/2 -translate-x-1/2 bg-white rounded-2xl px-4 py-2.5 shadow-lg flex items-center gap-2 whitespace-nowrap">
+                  <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                  <span className="text-xs font-medium text-stone-700">Aceita novos pacientes</span>
+                </div>
               </div>
             </div>
           </div>
