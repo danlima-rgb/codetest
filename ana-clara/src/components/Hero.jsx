@@ -28,16 +28,33 @@ export default function Hero() {
     <div id="topo">
 
       {/* ── MOBILE (< 768px) ─────────────────────────────── */}
-      <div className="md:hidden">
+      <div
+        className="md:hidden relative flex flex-col"
+        style={{ height: '100svh', minHeight: '600px', background: '#1C1008' }}
+      >
+        {/* Foto full-bleed */}
+        <div className="absolute inset-0">
+          <img
+            src={foto}
+            alt="Ana Clara Laranja — Psicóloga"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 55%' }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background: `
+                linear-gradient(to bottom, rgba(12,6,2,0.82) 0%, rgba(12,6,2,0.55) 35%, rgba(12,6,2,0.10) 60%, transparent 100%),
+                linear-gradient(to top, rgba(10,5,2,0.60) 0%, transparent 20%)
+              `,
+            }}
+          />
+        </div>
 
-        {/* Texto — fundo sólido escuro */}
-        <div
-          className="px-6 pb-8 pt-24"
-          style={{ background: 'linear-gradient(160deg, #1E1008 0%, #2E1A0A 100%)' }}
-        >
+        {/* Texto no topo */}
+        <div className="relative z-10 flex-1 px-6 pt-24 flex flex-col justify-start">
           <div className="flex items-center gap-2 mb-4">
             <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-            <span className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.65)' }}>
+            <span className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.70)' }}>
               Aceita novos pacientes · CRP 16/11510
             </span>
           </div>
@@ -49,7 +66,7 @@ export default function Hero() {
             <em className="not-italic" style={{ color: '#D4956E' }}>o cuidado</em>
             <br />e uma vida leve
           </h1>
-          <p className="mb-6 leading-relaxed" style={{ fontSize: '14px', color: 'rgba(255,255,255,0.62)' }}>
+          <p className="mb-6 leading-relaxed" style={{ fontSize: '14px', color: 'rgba(255,255,255,0.68)', maxWidth: '320px' }}>
             Psicoterapia individual online e presencial —
             um espaço seguro para se reconectar consigo.
           </p>
@@ -67,11 +84,12 @@ export default function Hero() {
               href="#sobre"
               className="inline-flex items-center font-medium rounded-full"
               style={{
-                background: 'rgba(255,255,255,0.08)',
+                background: 'rgba(255,255,255,0.10)',
                 color: '#fff',
                 padding: '12px 20px',
                 fontSize: '14px',
-                border: '1px solid rgba(255,255,255,0.18)',
+                border: '1px solid rgba(255,255,255,0.22)',
+                backdropFilter: 'blur(8px)',
               }}
             >
               Conhecer mais
@@ -79,29 +97,10 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Foto — altura fixa, rosto visível */}
-        <div style={{ height: '360px', overflow: 'hidden', position: 'relative' }}>
-          <img
-            src={foto}
-            alt="Ana Clara Laranja — Psicóloga"
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              objectPosition: '50% 52%',
-              display: 'block',
-            }}
-          />
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background: 'linear-gradient(to bottom, rgba(20,10,4,0.18) 0%, transparent 20%, transparent 85%, rgba(10,5,2,0.45) 100%)',
-            }}
-          />
+        {/* TrustBar na base */}
+        <div className="relative z-10">
+          <TrustBar />
         </div>
-
-        <TrustBar />
       </div>
 
       {/* ── DESKTOP (≥ 768px) ────────────────────────────── */}
