@@ -59,12 +59,14 @@ export default function Hero() {
             </span>
           </div>
           <h1
-            className="font-serif mb-3 leading-tight"
-            style={{ fontSize: 'clamp(32px, 9vw, 42px)', fontWeight: 400, color: '#fff' }}
+            className="font-serif mb-3"
+            style={{ fontSize: '36px', fontWeight: 400, color: '#fff', lineHeight: 1.15 }}
           >
-            Entre a rotina,{' '}
+            Entre a rotina,
+            <br />
             <em className="not-italic" style={{ color: '#D4956E' }}>o cuidado</em>
-            <br />e uma vida leve
+            <br />
+            e uma vida leve
           </h1>
           <p className="mb-6 leading-relaxed" style={{ fontSize: '14px', color: 'rgba(255,255,255,0.68)', maxWidth: '320px' }}>
             Psicoterapia individual online e presencial —
