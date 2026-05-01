@@ -80,7 +80,7 @@ export default function Hero() {
         </div>
 
         {/* Foto — altura fixa, rosto visível */}
-        <div style={{ height: '480px', overflow: 'hidden', position: 'relative' }}>
+        <div style={{ height: '360px', overflow: 'hidden', position: 'relative' }}>
           <img
             src={foto}
             alt="Ana Clara Laranja — Psicóloga"
@@ -88,7 +88,7 @@ export default function Hero() {
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              objectPosition: '50% 44%',
+              objectPosition: '50% 52%',
               display: 'block',
             }}
           />
