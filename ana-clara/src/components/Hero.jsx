@@ -109,27 +109,34 @@ export default function Hero() {
       {/* ── DESKTOP (≥ 768px) ────────────────────────────── */}
       <div
         className="relative hidden md:flex flex-col"
-        style={{ height: '100svh', minHeight: '650px', background: '#1C1008' }}
+        style={{ height: '100svh', minHeight: '650px', background: '#1C1008', overflow: 'hidden' }}
       >
         <div className="absolute inset-0">
           <img
             src={fotoDesktop}
             alt="Ana Clara Laranja"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '58% center' }}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: '52% center',
+              transform: 'scale(1.18)',
+              transformOrigin: '62% center',
+            }}
           />
           <div
             className="absolute inset-0"
             style={{
               background: `
-                linear-gradient(to right, rgba(15,8,3,0.90) 0%, rgba(15,8,3,0.60) 42%, rgba(15,8,3,0.08) 70%, transparent 100%),
+                linear-gradient(to right, rgba(15,8,3,0.92) 0%, rgba(15,8,3,0.75) 35%, rgba(15,8,3,0.20) 55%, transparent 72%),
                 linear-gradient(to top, rgba(15,8,3,0.55) 0%, transparent 25%)
               `,
             }}
           />
         </div>
 
-        <div className="relative z-10 flex-1 w-full px-12 flex flex-col justify-center">
-          <div style={{ maxWidth: '480px' }}>
+        <div className="relative z-10 flex-1 flex flex-col justify-center" style={{ paddingLeft: '5%', maxWidth: '44%' }}>
+          <div>
             <div className="flex items-center gap-2 mb-5">
               <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
               <span className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.70)' }}>
