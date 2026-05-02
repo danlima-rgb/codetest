@@ -135,7 +135,7 @@ export default function Hero() {
           />
         </div>
 
-        <div className="relative z-10 flex-1 flex flex-col justify-center" style={{ paddingLeft: '5%', maxWidth: '44%' }}>
+        <div className="relative z-10 flex-1 flex flex-col justify-center" style={{ paddingLeft: '360px', paddingRight: '360px' }}>
           <div>
             <div className="flex items-center gap-2 mb-5">
               <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
