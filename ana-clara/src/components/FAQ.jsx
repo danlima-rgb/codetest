@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const faqs = [
   {
@@ -28,6 +29,9 @@ const faqs = [
   },
 ];
 
+const ease = [0.22, 1, 0.36, 1];
+const vp = { once: true, margin: '-80px' };
+
 function Item({ q, a }) {
   const [open, setOpen] = useState(false);
   return (
@@ -37,15 +41,24 @@ function Item({ q, a }) {
         className="w-full flex items-center justify-between gap-4 py-5 text-left"
       >
         <span className="font-medium text-stone-800">{q}</span>
-        <ChevronDown
-          size={18}
-          className="shrink-0 transition-transform duration-200 text-stone-400"
-          style={{ transform: open ? 'rotate(180deg)' : 'rotate(0deg)' }}
-        />
+        <motion.div animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.25 }}>
+          <ChevronDown size={18} className="shrink-0 text-stone-400" />
+        </motion.div>
       </button>
-      {open && (
-        <p className="pb-5 text-stone-500 text-sm leading-relaxed">{a}</p>
-      )}
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            key="answer"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease }}
+            style={{ overflow: 'hidden' }}
+          >
+            <p className="pb-5 text-stone-500 text-sm leading-relaxed">{a}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -54,20 +67,34 @@ export default function FAQ() {
   return (
     <section id="faq" className="py-24" style={{ background: '#FAF8F5' }}>
       <div className="max-w-3xl mx-auto px-6">
-        <div className="text-center mb-14">
+        <motion.div
+          className="text-center mb-14"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={vp}
+          transition={{ duration: 0.6, ease }}
+        >
           <p className="eyebrow mb-4">Dúvidas frequentes</p>
-          <h2 className="section-headline text-stone-900">
-            Perguntas &amp; respostas
-          </h2>
-        </div>
+          <h2 className="section-headline text-stone-900">Perguntas &amp; respostas</h2>
+        </motion.div>
 
-        <div className="bg-white rounded-3xl px-8 py-2 shadow-sm border border-stone-100">
-          {faqs.map((f) => (
-            <Item key={f.q} q={f.q} a={f.a} />
-          ))}
-        </div>
+        <motion.div
+          className="bg-white rounded-3xl px-8 py-2 shadow-sm border border-stone-100"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={vp}
+          transition={{ duration: 0.6, ease, delay: 0.1 }}
+        >
+          {faqs.map((f) => <Item key={f.q} q={f.q} a={f.a} />)}
+        </motion.div>
 
-        <p className="mt-8 text-center text-stone-500 text-sm">
+        <motion.p
+          className="mt-8 text-center text-stone-500 text-sm"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={vp}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
           Ainda tem dúvidas?{' '}
           <a
             href="https://wa.me/message/6UVITCQEF3U"
@@ -78,7 +105,7 @@ export default function FAQ() {
           >
             Fale comigo pelo WhatsApp
           </a>
-        </p>
+        </motion.p>
       </div>
     </section>
   );

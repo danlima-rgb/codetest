@@ -1,4 +1,5 @@
 import { Heart, Lightbulb, Users } from 'lucide-react';
+import { motion } from 'framer-motion';
 import fotoSobre from '../assets/fotoSobre.js';
 
 const values = [
@@ -19,6 +20,9 @@ const values = [
   },
 ];
 
+const ease = [0.22, 1, 0.36, 1];
+const vp = { once: true, margin: '-80px' };
+
 export default function About() {
   return (
     <section id="sobre" className="py-24 bg-white">
@@ -27,8 +31,12 @@ export default function About() {
         {/* Top: texto + foto */}
         <div className="grid md:grid-cols-2 gap-16 items-center mb-16">
 
-          {/* Texto */}
-          <div>
+          <motion.div
+            initial={{ opacity: 0, x: -32 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={vp}
+            transition={{ duration: 0.7, ease }}
+          >
             <p className="eyebrow mb-4">Sobre mim</p>
             <h2 className="section-headline text-stone-900 mb-6">
               Cuidar de quem cuida do mundo
@@ -58,49 +66,54 @@ export default function About() {
                 <p className="text-xs text-stone-500">Psicóloga · CRP 16/11510</p>
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Foto */}
-          <div className="relative hidden md:block" style={{ height: '520px' }}>
-            <div
-              className="w-full h-full rounded-3xl overflow-hidden"
-              style={{ background: '#F5EDE3' }}
-            >
+          <motion.div
+            className="relative hidden md:block"
+            style={{ height: '520px' }}
+            initial={{ opacity: 0, x: 32 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={vp}
+            transition={{ duration: 0.7, ease, delay: 0.1 }}
+          >
+            <div className="w-full h-full rounded-3xl overflow-hidden" style={{ background: '#F5EDE3' }}>
               <img
                 src={fotoSobre}
                 alt="Ana Clara Laranja — Psicóloga"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  objectPosition: '50% 20%',
-                }}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 20%' }}
               />
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Cards na horizontal */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          initial="hidden"
+          whileInView="show"
+          viewport={vp}
+          variants={{ hidden: {}, show: { transition: { staggerChildren: 0.12 } } }}
+        >
           {values.map(({ icon: Icon, title, text }) => (
-            <div
+            <motion.div
               key={title}
               className="flex flex-col gap-4 p-6 rounded-2xl"
               style={{ background: '#FAF8F5', border: '1px solid #EDE8E1' }}
+              variants={{
+                hidden: { opacity: 0, y: 28 },
+                show: { opacity: 1, y: 0, transition: { duration: 0.6, ease } },
+              }}
             >
-              <div
-                className="w-11 h-11 rounded-xl flex items-center justify-center"
-                style={{ background: '#F5EDE3' }}
-              >
+              <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: '#F5EDE3' }}>
                 <Icon size={20} style={{ color: '#B5734A' }} />
               </div>
               <div>
                 <h3 className="font-semibold text-stone-800 mb-2">{title}</h3>
                 <p className="text-sm text-stone-500 leading-relaxed">{text}</p>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
       </div>
     </section>
