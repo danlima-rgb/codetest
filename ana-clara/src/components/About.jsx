@@ -1,5 +1,5 @@
 import { Heart, Lightbulb, Users } from 'lucide-react';
-import foto from '../assets/foto.js';
+import fotoSobre from '../assets/fotoSobre.js';
 
 const values = [
   {
@@ -67,13 +67,13 @@ export default function About() {
               style={{ background: '#F5EDE3' }}
             >
               <img
-                src={foto}
+                src={fotoSobre}
                 alt="Ana Clara Laranja — Psicóloga"
                 style={{
                   width: '100%',
                   height: '100%',
                   objectFit: 'cover',
-                  objectPosition: '50% 30%',
+                  objectPosition: '50% 20%',
                 }}
               />
             </div>
