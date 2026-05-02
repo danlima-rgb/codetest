@@ -1,5 +1,6 @@
 import { ArrowRight } from 'lucide-react';
 import foto from '../assets/foto.js';
+import fotoDesktop from '../assets/fotoDesktop.js';
 
 const trustItems = [
   { value: 'Online', label: 'e presencial' },
@@ -112,9 +113,9 @@ export default function Hero() {
       >
         <div className="absolute inset-0">
           <img
-            src={foto}
+            src={fotoDesktop}
             alt="Ana Clara Laranja"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 44%' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '70% center' }}
           />
           <div
             className="absolute inset-0"
