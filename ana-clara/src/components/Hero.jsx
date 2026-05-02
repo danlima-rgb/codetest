@@ -115,7 +115,7 @@ export default function Hero() {
           <img
             src={fotoDesktop}
             alt="Ana Clara Laranja"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '70% center' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '58% center' }}
           />
           <div
             className="absolute inset-0"
@@ -128,8 +128,8 @@ export default function Hero() {
           />
         </div>
 
-        <div className="relative z-10 flex-1 max-w-6xl mx-auto px-10 flex flex-col justify-center">
-          <div className="max-w-lg">
+        <div className="relative z-10 flex-1 w-full px-12 flex flex-col justify-center">
+          <div style={{ maxWidth: '480px' }}>
             <div className="flex items-center gap-2 mb-5">
               <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
               <span className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.70)' }}>
